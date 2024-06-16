@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import axios from "axios";
 import config from "./config";
+import Spinner from "./Spinner";
 
 const Base_URL = config.baseURL;
 
@@ -15,6 +16,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -36,8 +38,9 @@ function Signup() {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (password !== confirmPassword) {
       alert("Passwords do not match");
@@ -56,6 +59,7 @@ function Signup() {
 
       if (res.status === 201) {
         alert("Successfully registered, proceed to login!");
+        setLoading(false);
         navigate("/sign-in");
       } else {
         alert("Registration failed. Please try again.");
@@ -70,6 +74,8 @@ function Signup() {
         );
         alert("An error occurred during signup. Please try again.");
       }
+    } finally {
+      setLoading(false); // Set loading state to false after login attempt completes
     }
   };
 
@@ -78,7 +84,7 @@ function Signup() {
       <Navbar />
       <div className="card signup-card">
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSignUp}>
           <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input
@@ -134,8 +140,14 @@ function Signup() {
               required
             />
           </div>
-          <button className="submit-button" type="submit">
-            Sign Up
+          <button
+            className="submit-button"
+            type="submit"
+            onClick={handleSignUp}
+            disabled={loading}
+          >
+            {loading ? <Spinner /> : "Sign Up"}{" "}
+            {/* Show Spinner component when loading */}
           </button>
         </form>
       </div>

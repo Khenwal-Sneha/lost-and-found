@@ -6,6 +6,7 @@ import axios from "axios";
 import config from "./config";
 import { useDispatch } from "react-redux";
 import { login } from "../utils/userSlice";
+import Spinner from "./Spinner"; // Assuming you have a Spinner component
 
 const Base_URL = config.baseURL;
 
@@ -14,7 +15,7 @@ function Signin() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
   const handleNavigateToSignUp = () => {
     navigate("/sign-up");
@@ -30,7 +31,7 @@ function Signin() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true); // Set loading state to true when starting sign-in
 
     const data = {
       email: email,
@@ -63,7 +64,7 @@ function Signin() {
       console.error("Error during login:", error);
       alert("Wrong Credentials. Please try again.");
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading state to false after login attempt completes
     }
   };
 
@@ -100,7 +101,8 @@ function Signin() {
             onClick={handleSignIn}
             disabled={loading}
           >
-            {loading ? "Signing In..." : "Sign In"}
+            {loading ? <Spinner /> : "Sign In"}{" "}
+            {/* Show Spinner component when loading */}
           </button>
           <p className="btn-spread">Not a member?</p>
           <button className="btn-signin" onClick={handleNavigateToSignUp}>
