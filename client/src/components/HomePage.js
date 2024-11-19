@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import GroupInfo from "./GroupInfo";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -122,9 +121,6 @@ const HomePage = () => {
             </Link>
           </>
         )}
-        <div style={membersStyle}>
-          <GroupInfo /> {/* Display the GroupInfo component here */}
-        </div>
       </div>
     </>
   );
